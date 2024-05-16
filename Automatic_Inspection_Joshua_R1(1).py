@@ -21,17 +21,16 @@ def get_Data (files , callback):
         #opening fits file and reading data
         Star = fits.open(files) 
         Data = Star[0].data
-        # plt.imshow(Data , origin = 'lower')
-        # plt.title(files)
-        # plt.show()
 
-       
+       #Adding dimenstions in shape to a variable to help plot the gaussian later 
         nx , ny = Data.shape 
 
         y , x = np.mgrid[:ny , :nx] 
-        
-        star_x = 16 #go somewhere near the center of image
+
+        #go somewhere near the center of image
+        star_x = 16 
         star_y = 16
+
         #set the max value to this point 
         Newmaxpix = Data[star_x,star_y] 
 
@@ -50,21 +49,26 @@ def get_Data (files , callback):
         
         if Object_Num >= 1:
                 d_gaus = gaussian_factory(Data , Newmaxpix, Newpixx , Newpixy)
-                # plt.imshow(d_gaus(x , y), origin = 'lower')
-                # plt.show()
-
-
+               
+                
         
-        #set the result of the deblend as a variable
-        # Pic = plt.imshow(result , origin = 'lower')
-
+        #plot every figure weve made 
         figure , axis = plt.subplots(1 , 3)
 
+        #Gaussian 
         axis[0].imshow(d_gaus(x , y), origin = 'lower')
+        
+        #Normal image 
         axis[1].imshow(Data , origin = 'lower')
+        
+        #Deblended Image 
         axis[2].imshow(result , origin = 'lower')
 
+       #title as well as centereing
         plt.title(files , loc = 'right' )
+       
+       #get rid of the numbers and ticks on x and y axis
+        plt.setp(plt.gcf().get_axes(), xticks=[], yticks=[])
         plt.show()
         
         #close fits file 
@@ -77,7 +81,6 @@ def gaussian_factory (Data , Newmaxpixel, Newpixx , Newpixy):
        #gaussian model making 
         #shape of the image
 
-        gaussian_scaleup = rescale(Data , 5)
         nx , ny = Data.shape 
 
         y , x = np.mgrid[:ny , :nx] 
@@ -98,7 +101,6 @@ def gaussian_factory (Data , Newmaxpixel, Newpixx , Newpixy):
         Gaussian_fit = fit_prod(Img_Gaussian , x , y, Data)
         
         # gaussian_scaleup = rescale(Gaussian_fit , 5)
-        
         return(Gaussian_fit)
        
         
@@ -121,8 +123,8 @@ def deblend_Data (Data):
         segment_mp = detect_sources(data_scaleup , threshhold , npixels = 2 )
 
         #deblend the sources found in the image
-        deblend = deblend_sources(data_scaleup , segment_mp , npixels = 2 , 
-                                nlevels = 50, contrast = 0.007, progress_bar = False)
+        deblend = deblend_sources(data_scaleup , segment_mp , npixels = 5 , 
+                                nlevels = 50, contrast = 0.01, progress_bar = False)
         
         segment_mp_Objects = segment_mp.data 
         Object_Num = len(segment_mp.labels)
@@ -135,8 +137,7 @@ def deblend_Data (Data):
 for Images in os.listdir('C:/Users/Neuron Upload/Star_Images'):
         get_Data(Images , deblend_Data)
         
-        # if Object_Number >= 1:
-        #         gaussian_factory()
+       
                 
 
 
