@@ -11,6 +11,7 @@ from matplotlib import gridspec
 from astropy.modeling import models , fitting
 import matplotlib.image as mpimg
 import os 
+import shutil
 
 #files from the loop go through get_Data 
 #callback is initialized here for deblend_Data()
@@ -47,22 +48,23 @@ def get_Data (files , callback):
         #deblend the image by using deblend funciton  
         result , Object_Num = deblend_Data(Data) 
         
-        if Object_Num >= 1:
+        if Object_Num == 1:
                 d_gaus = gaussian_factory(Data , Newmaxpix, Newpixx , Newpixy)
+                figure , axis = plt.subplots(1, 3)
+
+
+                axis[0].imshow(d_gaus(x , y), origin = 'lower')
+                axis[1].imshow(Data , origin = 'lower')
+                axis[2].imshow(result , origin = 'lower')
+
+                # print(files)
+
+        else:
+                Figure_1 , Axis = plt.subplots(1, 2)
+                Axis[0].imshow(result , origin = 'lower')
+                Axis[1].imshow(Data , origin = 'lower')
                
                 
-        
-        #plot every figure weve made 
-        figure , axis = plt.subplots(1 , 3)
-
-        #Gaussian 
-        axis[0].imshow(d_gaus(x , y), origin = 'lower')
-        
-        #Normal image 
-        axis[1].imshow(Data , origin = 'lower')
-        
-        #Deblended Image 
-        axis[2].imshow(result , origin = 'lower')
 
        #title as well as centereing
         plt.title(files , loc = 'right' )
