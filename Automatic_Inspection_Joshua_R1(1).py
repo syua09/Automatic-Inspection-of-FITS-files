@@ -50,24 +50,46 @@ def get_Data (files , callback):
         result , Object_Num = deblend_Data(Data) 
         
         if Object_Num == 1:
+
+                #return the Gaussin fron the gaussian function
                 d_gaus = gaussian_factory(Data , Newmaxpix, Newpixx , Newpixy)
+
+                #create subplots for the images we'll be displaying 
                 figure , axis = plt.subplots(1, 3)
+                
+                #create a destination where you want contaminated images to go.
+                destination = 'C:/Users/Neuron Upload/Contaminated_Images'
 
-                # destination = 'C:/Users/Neuron Upload/Conataminated_Images'
-
+                #create your graphs on a subplot
+                #gaussian
                 axis[0].imshow(d_gaus(x , y), origin = 'lower')
+                
+                #Normal Fits
                 axis[1].imshow(Data , origin = 'lower')
+
+                #Deblended Image
                 axis[2].imshow(result , origin = 'lower')
 
-                # dst_path = os.path.join(destination, files)
-                # # shutil.move(src_path, dst_path)
+                #copying the files that do have one object on them to the folder mentioned b4
+                shutil.copy(files, destination)
 
                 # print(files)
 
         else:
+
+                #if they have more than one object
+                #create a subplot
                 Figure_1 , Axis = plt.subplots(1, 2)
+
+                Destination_2 = 'C:/Users/Neuron Upload/Clean_Images'
+
+                #deblneded Image 
                 Axis[0].imshow(result , origin = 'lower')
+
+                #Normal Fits file 
                 Axis[1].imshow(Data , origin = 'lower')
+
+                shutil.copy(files , Destination_2)
                
                 
 
