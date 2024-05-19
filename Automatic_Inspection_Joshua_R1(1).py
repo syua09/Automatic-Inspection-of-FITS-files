@@ -18,6 +18,7 @@ import shutil
 
 def get_Data (files , callback):
         
+        # src_path = 'C:/Users/Neuron Upload/Star_Images'
 
         #opening fits file and reading data
         Star = fits.open(files) 
@@ -52,10 +53,14 @@ def get_Data (files , callback):
                 d_gaus = gaussian_factory(Data , Newmaxpix, Newpixx , Newpixy)
                 figure , axis = plt.subplots(1, 3)
 
+                # destination = 'C:/Users/Neuron Upload/Conataminated_Images'
 
                 axis[0].imshow(d_gaus(x , y), origin = 'lower')
                 axis[1].imshow(Data , origin = 'lower')
                 axis[2].imshow(result , origin = 'lower')
+
+                # dst_path = os.path.join(destination, files)
+                # # shutil.move(src_path, dst_path)
 
                 # print(files)
 
@@ -136,6 +141,8 @@ def deblend_Data (Data):
     
 
 #Main function, loops through files and goes through get_data() and Utilizes a callback for deblend_Data()
+
+# cwd = os.getcwd()
 for Images in os.listdir('C:/Users/Neuron Upload/Star_Images'):
         get_Data(Images , deblend_Data)
         
