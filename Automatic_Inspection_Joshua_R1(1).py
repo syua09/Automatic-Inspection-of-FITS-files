@@ -164,8 +164,8 @@ def deblend_Data (Data):
 
 #Main function, loops through files and goes through get_data() and Utilizes a callback for deblend_Data()
 
-# cwd = os.getcwd()
-for Images in os.listdir('C:/Users/Neuron Upload/Star_Images'):
+cwd = os.getcwd()
+for Images in os.listdir(cwd + '/Star_Images'):
         get_Data(Images , deblend_Data)
         
        
