@@ -49,7 +49,7 @@ def get_Data (files , callback):
         #deblend the image by using deblend funciton  
         result , Object_Num = deblend_Data(Data) 
         
-        if Object_Num == 1:
+        if Object_Num > 1:
 
                 #return the Gaussin fron the gaussian function
                 d_gaus = gaussian_factory(Data , Newmaxpix, Newpixx , Newpixy)
@@ -167,7 +167,6 @@ def deblend_Data (Data):
 cwd = os.getcwd()
 for Images in os.listdir(cwd + '/Star_Images'):
         get_Data(Images , deblend_Data)
-        
        
                 
 
