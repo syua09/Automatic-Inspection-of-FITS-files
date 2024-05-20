@@ -165,8 +165,12 @@ def deblend_Data (Data):
 #Main function, loops through files and goes through get_data() and Utilizes a callback for deblend_Data()
 
 cwd = os.getcwd()
-for Images in os.listdir(cwd + '/Star_Images'):
-        get_Data(Images , deblend_Data)
+for Images in os.listdir(cwd):
+        if Images[-5:] == '.fits':
+                get_Data(Images , deblend_Data)
+        # print(Images[-4:])
+
+
        
                 
 
