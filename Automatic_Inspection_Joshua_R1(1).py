@@ -168,7 +168,7 @@ cwd = os.getcwd()
 for Images in os.listdir(cwd):
         if Images[-5:] == '.fits':
                 get_Data(Images , deblend_Data)
-        # print(Images[-4:])
+        
 
 
        
